@@ -1,0 +1,101 @@
+#include <iostream>
+using namespace std;
+
+// defining the struct
+struct ListNode
+{
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(nullptr) {}
+};
+
+// insert fucntion to insert node into the linked list
+void insert(ListNode *&head, int value)
+{
+    ListNode *newNode = new ListNode(value);
+    if (!head)
+    {
+        head = newNode;
+        return;
+    }
+    ListNode *current = head;
+    while (current->next)
+    {
+        current = current->next;
+    }
+    current->next = newNode;
+}
+
+// printing the linked list
+void printLinkedList(ListNode *head)
+{
+    ListNode *current = head;
+    while (current)
+    {
+        cout << current->val << " -> ";
+        current = current->next;
+    }
+    cout << "nullptr" << endl;
+}
+
+void RemoveDup(ListNode *head)
+{
+    if (head == nullptr || !head)
+        return;
+
+    ListNode *curr = head;
+
+    while (curr && curr->next)
+    {
+        if (curr->val == (curr->next)->val)
+        {
+            curr->next = (curr->next)->next;
+        }
+        else
+        {
+            curr = curr->next;
+        }
+    }
+
+    return;
+}
+int main()
+{
+    ListNode *head = nullptr;
+
+    int values[] = {1, 1, 1, 2, 3, 4, 5, 5, 5, 5, 6, 7, 7, 8, 9};
+    for (int value : values)
+    {
+        insert(head, value);
+    }
+
+    printLinkedList(head);
+
+    RemoveDup(head);
+    cout << endl;
+    printLinkedList(head);
+
+    return 0;
+}
+
+
+// Solution for leetcode
+
+// class Solution {
+// public:
+//     ListNode* deleteDuplicates(ListNode* head) {
+//         if (!head) return head;  
+        
+//         ListNode* current = head;
+//         while (current && current->next) {
+//             if (current->val == current->next->val) {
+     
+//                 current->next = current->next->next;
+//             } else {
+              
+//                 current = current->next;
+//             }
+//         }
+//         return head;
+//     }
+// };
