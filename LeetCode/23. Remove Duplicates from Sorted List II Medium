@@ -1,0 +1,123 @@
+#include <iostream>
+using namespace std;
+
+// defining the struct
+struct ListNode
+{
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(nullptr) {};
+    ListNode(int x,ListNode* nxt): val(x),next(nxt){};
+};
+
+// insert fucntion to insert node into the linked list
+void insert(ListNode *&head, int value)
+{
+    ListNode *newNode = new ListNode(value);
+    if (!head)
+    {
+        head = newNode;
+        return;
+    }
+    ListNode *current = head;
+    while (current->next)
+    {
+        current = current->next;
+    }
+    current->next = newNode;
+}
+
+// printing the linked list
+void printLinkedList(ListNode *head)
+{
+    ListNode *current = head;
+    while (current)
+    {
+        cout << current->val << " -> ";
+        current = current->next;
+    }
+    cout << "nullptr" << endl;
+}
+
+ListNode* deledup(ListNode* head){
+    
+    //initialization of nodes
+    ListNode* dummy=new ListNode (0,head);
+    ListNode* current=head;
+    ListNode* prev=dummy;
+
+    while(current){
+
+        if(current->next && current->next->val==current->val){
+            while(current->next && current->next->val==current->val){
+                current=current->next;
+            }
+            prev->next=current->next;
+        }
+        else{
+            prev=prev->next;//prev update to current
+        }
+
+        current=current->next; 
+    }
+
+    return dummy->next;
+}
+
+
+ int main()
+{
+    ListNode *head = nullptr;
+
+    int values[] = {1, 1, 1, 2, 3, 4, 5, 5, 5, 5, 6, 7, 7, 8, 9};
+    for (int value : values)
+    {
+        insert(head, value);
+    }
+
+    printLinkedList(head);
+    
+    head=deledup(head);
+     printLinkedList(head);
+
+    return 0;
+}
+
+
+
+
+// Leetcode solution
+// class Solution {
+// public:
+//     ListNode* deleteDuplicates(ListNode* head) {
+//         // Edge case: if the list is empty or has a single node
+//         if (!head || !head->next) {
+//             return head;
+//         }
+
+//         // Create a dummy node
+//         ListNode* dummy = new ListNode(0, head);
+//         ListNode* prev = dummy; // Pointer to track the last valid node
+//         ListNode* current = head; // Pointer to traverse the list
+
+//         while (current) {
+  
+//             if (current->next && current->val == current->next->val) {
+                 
+//                 while (current->next && current->val == current->next->val) {
+//                     current = current->next;
+//                 }
+                 
+//                 prev->next = current->next;
+//             } else {
+//                 // No duplicate: move prev to current
+//                 prev = prev->next;
+//             }
+//             // Move current to the next node
+//             current = current->next;
+//         }
+
+//         // Return the modified list
+//         return dummy->next;
+//     }
+// };
